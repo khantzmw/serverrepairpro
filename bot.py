@@ -70,7 +70,7 @@ def process_server_setup(chat_id, ip, user, pw, file_id):
         ssh.connect(ip, username=user, password=pw, timeout=15)
 
         # 3x-ui Install
-        install_cmd = 'printf "\\n2\\n\\n\\n" | bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v2.9.4 && printf "7\\ny\\nmtk\\nmtk\\n>
+        install_cmd = 'printf "\\n2\\n\\n\\n" | bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) v2.9.4 && printf "7\\ny\\nadmin\\n123\\n>
         stdin, stdout, stderr = ssh.exec_command(install_cmd)
         stdout.channel.recv_exit_status() # Install ပြီးဆုံးသည်အထိ စောင့်ရန်
 
