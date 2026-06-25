@@ -1,0 +1,41 @@
+name: Server Repair Pro
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Copy bot.py to Droplet
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASSWORD }}
+        source: "bot.py"
+        target: "/root/serverrepairpro"
+
+    - name: Install Tools and Start Bot
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASSWORD }}
+        script: |
+          # လိုအပ်သော Tools များ Install ပြုလုပ်ခြင်း
+          apt update && apt upgrade -y
+          apt install python3-pip npm -y
+          npm install pm2 -g
+          pip3 install pyTelegramBotAPI paramiko
+          
+          # Folder အသစ်ထဲသို့ ဝင်၍ Bot အား PM2 ဖြင့် Run ခြင်း
+          cd /root/serverrepairpro
+          pm2 stop TelegramBot || true
+          pm2 delete TelegramBot || true
+          pm2 start bot.py --name "TelegramBot" --interpreter python3
+          pm2 save
+          pm2 startup
