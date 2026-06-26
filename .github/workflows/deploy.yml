@@ -1,4 +1,4 @@
-name: Server Repair Pro
+name: serverrepairpro
 
 on:
   workflow_dispatch: 
@@ -17,7 +17,7 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
         source: "bot.py"
-        target: "/root/serverrepairpro"
+        target: "/root"
 
     - name: Install Tools and Start Bot
       uses: appleboy/ssh-action@master
@@ -32,10 +32,9 @@ jobs:
           npm install pm2 -g
           pip3 install pyTelegramBotAPI paramiko
           
-          # Folder အသစ်ထဲသို့ ဝင်၍ Bot အား PM2 ဖြင့် Run ခြင်း
-          cd /root/serverrepairpro
+          # Bot အား PM2 ဖြင့် Run ခြင်း
           pm2 stop TelegramBot || true
           pm2 delete TelegramBot || true
-          pm2 start bot.py --name "TelegramBot" --interpreter python3
+          pm2 start /root/bot.py --name "TelegramBot" --interpreter python3
           pm2 save
           pm2 startup
