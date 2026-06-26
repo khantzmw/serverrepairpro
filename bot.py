@@ -6,7 +6,7 @@ import threading
 import uuid
 
 # သင့်၏ Bot Token
-BOT_TOKEN = '8858455616:AAER4frpyFgJtzVUPp0IG6fofUnCpLfjj4s'
+BOT_TOKEN = '8641808815:AAE2uX1IdWQqqbQNVi7mY9OVU0t3NzcPQUI'
 bot = telebot.TeleBot(BOT_TOKEN)
 
 # User Information မှတ်သားရန် (Queue ပုံစံဖြင့် ယာယီမှတ်ရန်)
